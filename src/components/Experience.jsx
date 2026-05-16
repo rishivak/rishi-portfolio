@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
 const experiences = [
@@ -44,40 +44,56 @@ const experiences = [
 ];
 
 export default function Experience() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'center center'],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
   return (
-    <section id="experience" className="py-28 md:py-36 px-6">
-      <div ref={ref} className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
+    <section id="experience" ref={sectionRef} className="py-32 md:py-44 px-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(99,102,241,0.04)_0%,_transparent_50%)]" />
+
+      <motion.div style={{ scale, opacity }} className="max-w-6xl mx-auto relative z-10">
+        <div>
           <p className="text-accent-light text-sm font-medium tracking-widest uppercase mb-3">
             Experience
           </p>
-          <h2 className="section-heading">Where I&apos;ve worked</h2>
-        </motion.div>
+          <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
+            Where I&apos;ve worked
+          </h2>
+        </div>
 
-        <div className="mt-14 relative">
-          <div className="absolute left-[7px] top-2 bottom-2 w-px bg-white/[0.06] hidden md:block" />
+        <div className="mt-16 relative">
+          <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-accent/30 via-white/[0.06] to-transparent hidden md:block" />
 
           <div className="space-y-12">
             {experiences.map((exp, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.15 * i }}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                 className="relative md:pl-12"
               >
-                <div className="hidden md:flex absolute left-0 top-1 w-[15px] h-[15px] rounded-full bg-dark-950 border-2 border-accent/50 items-center justify-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.12 + 0.2 }}
+                  className="hidden md:flex absolute left-0 top-1 w-[15px] h-[15px] rounded-full bg-dark-950 border-2 border-accent/50 items-center justify-center"
+                >
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-                </div>
+                </motion.div>
 
-                <div className="glass-card p-6 md:p-8 hover:border-white/10 transition-all duration-300">
+                <motion.div
+                  whileHover={{ y: -4, borderColor: 'rgba(255,255,255,0.15)' }}
+                  className="glass-card p-6 md:p-8 transition-all duration-300 cursor-default"
+                >
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
                     <div>
                       <h3 className="text-white font-semibold text-base">{exp.role}</h3>
@@ -100,12 +116,12 @@ export default function Experience() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

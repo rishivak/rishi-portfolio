@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Mail, Phone, MapPin, Send, ArrowUpRight } from 'lucide-react';
 
@@ -24,8 +24,15 @@ const contactInfo = [
 ];
 
 export default function Contact() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'center center'],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
@@ -38,34 +45,34 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-28 md:py-36 px-6 relative">
+    <section id="contact" ref={sectionRef} className="py-32 md:py-44 px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_rgba(99,102,241,0.06)_0%,_transparent_50%)]" />
 
-      <div ref={ref} className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
+      <motion.div style={{ scale, opacity }} className="max-w-6xl mx-auto relative z-10">
+        <div className="text-center">
           <p className="text-accent-light text-sm font-medium tracking-widest uppercase mb-3">
             Contact
           </p>
-          <h2 className="section-heading mx-auto">Let&apos;s work together</h2>
-          <p className="section-subheading mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
+            Let&apos;s work together
+          </h2>
+          <p className="text-gray-400 text-lg mt-4 max-w-xl mx-auto">
             Have a project in mind or just want to chat? Feel free to reach out.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="mt-14 grid md:grid-cols-5 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="md:col-span-2 space-y-4"
-          >
-            {contactInfo.map(({ icon: Icon, label, value, href }) => (
-              <div key={label} className="glass-card p-5 hover:border-white/10 transition-all duration-300">
+        <div className="mt-16 grid md:grid-cols-5 gap-8">
+          <div className="md:col-span-2 space-y-4">
+            {contactInfo.map(({ icon: Icon, label, value, href }, i) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                whileHover={{ y: -2, borderColor: 'rgba(255,255,255,0.15)' }}
+                className="glass-card p-5 transition-all duration-300 cursor-default"
+              >
                 <div className="flex items-start gap-4">
                   <div className="p-2 rounded-lg bg-accent/10 shrink-0">
                     <Icon size={16} className="text-accent-light" />
@@ -84,10 +91,17 @@ export default function Contact() {
                     )}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
 
-            <div className="glass-card p-5 hover:border-white/10 transition-all duration-300">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -2, borderColor: 'rgba(255,255,255,0.15)' }}
+              className="glass-card p-5 transition-all duration-300 cursor-default"
+            >
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 <p className="text-green-400 text-xs font-medium">Open for Freelance & Contract Work</p>
@@ -96,13 +110,14 @@ export default function Contact() {
                 Available for freelance projects, contract engagements, and consulting
                 opportunities. Let&apos;s build something great together.
               </p>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           <motion.form
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             onSubmit={handleSubmit}
             className="md:col-span-3 glass-card p-6 md:p-8"
           >
@@ -141,16 +156,18 @@ export default function Contact() {
                 placeholder="Tell me about your project..."
               />
             </div>
-            <button
+            <motion.button
               type="submit"
-              className="w-full sm:w-auto px-8 py-3 rounded-full bg-accent text-white text-sm font-medium hover:bg-indigo-500 transition-all duration-200 flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="w-full sm:w-auto px-8 py-3 rounded-full bg-accent text-white text-sm font-medium hover:bg-indigo-500 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 flex items-center justify-center gap-2"
             >
               {submitted ? 'Opening mail client...' : 'Send Message'}
               <Send size={14} />
-            </button>
+            </motion.button>
           </motion.form>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
