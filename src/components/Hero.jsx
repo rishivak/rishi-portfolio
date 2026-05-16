@@ -29,7 +29,7 @@ export default function Hero() {
   const photoOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
 
-  const nameWords = ['Rishi', 'Sharma'];
+  const nameWords = ['Rishi Sharma'];
 
   return (
     <section
@@ -74,7 +74,7 @@ export default function Hero() {
                   initial={{ y: '100%' }}
                   animate={{ y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className={`block ${i === 1 ? 'bg-gradient-to-r from-white via-accent-light to-accent bg-clip-text text-transparent' : ''}`}
+                  className="block bg-gradient-to-r from-white via-accent-light to-accent bg-clip-text text-transparent"
                 >
                   {word}
                 </motion.span>
@@ -104,6 +104,42 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-6 flex flex-wrap gap-4 text-sm text-gray-500"
+          >
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent/50" />
+              Jaipur, India
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent/50" />
+              S&P Global
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent/50" />
+              Open to Opportunities
+            </span>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="mt-6 flex flex-wrap gap-2"
+          >
+            {['Java', 'Spring Boot', 'React', 'AWS', 'Docker'].map((tech) => (
+              <span
+                key={tech}
+                className="px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] text-xs text-gray-400"
+              >
+                {tech}
+              </span>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.55 }}
             className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3"
           >
@@ -120,7 +156,7 @@ export default function Hero() {
               View Work
             </a>
             <a
-              href="/rishi-portfolio/Rishi_Sharma_Senior_Software_Engineer.pdf"
+              href="/rishi-portfolio/Rishi_Sharma_Sr_Software_Engineer.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-3 rounded-full text-gray-400 text-sm font-medium hover:text-white transition-all duration-300 hover:scale-105"

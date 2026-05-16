@@ -45,7 +45,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="/rishi-portfolio/Rishi_Sharma_Senior_Software_Engineer.pdf"
+            href="/rishi-portfolio/Rishi_Sharma_Sr_Software_Engineer.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm px-4 py-2 rounded-full bg-accent/10 text-accent-light border border-accent/20 hover:bg-accent/20 transition-all duration-200"
