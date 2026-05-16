@@ -1,8 +1,10 @@
-import { motion } from 'framer-motion';
-import { ArrowDown, ExternalLink, Globe, Mail, Download } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowDown, ExternalLink, Globe, Mail, Download, X } from 'lucide-react';
+import { useState } from 'react';
 import profileImg from '../assets/profile.png';
 
 export default function Hero() {
+  const [showLightbox, setShowLightbox] = useState(false);
   return (
     <section
       id="hero"
@@ -22,7 +24,7 @@ export default function Hero() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-6">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="text-accent-light text-xs font-medium tracking-wide">
-                Available for opportunities
+                Available for Freelance & Contract Work
               </span>
             </div>
           </motion.div>
@@ -120,13 +122,13 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="md:col-span-2 flex justify-center"
         >
-          <div className="relative">
+          <div className="relative cursor-pointer" onClick={() => setShowLightbox(true)}>
             <div className="absolute -inset-4 bg-gradient-to-br from-accent/20 via-transparent to-accent/10 rounded-full blur-2xl" />
-            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border-2 border-white/10 shadow-2xl shadow-accent/10">
+            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border-2 border-white/10 shadow-2xl shadow-accent/10 hover:border-accent/30 transition-all duration-300 hover:shadow-accent/20">
               <img
                 src={profileImg}
                 alt="Rishi Sharma"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-[center_5%] scale-[1.15]"
               />
             </div>
             <div className="absolute -bottom-2 -right-2 bg-dark-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs">
@@ -136,6 +138,40 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {showLightbox && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-dark-950/90 backdrop-blur-md"
+            onClick={() => setShowLightbox(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="relative max-w-lg w-[90vw] max-h-[85vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={profileImg}
+                alt="Rishi Sharma"
+                className="w-full h-auto rounded-2xl shadow-2xl border border-white/10"
+              />
+              <button
+                onClick={() => setShowLightbox(false)}
+                className="absolute -top-3 -right-3 p-2 rounded-full bg-dark-800 border border-white/10 text-gray-400 hover:text-white transition-colors"
+              >
+                <X size={16} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div
         initial={{ opacity: 0 }}

@@ -12,31 +12,36 @@ import healthcare2Img from '../assets/plan4healthcare2.png';
 const projects = [
   {
     icon: Brain,
-    title: 'Foreseer - AI',
-    company: 'S&P Global',
+    title: 'Foreseer - AI Data Extraction Platform',
+    company: 'S&P Global · Market Intelligence',
     description:
-      'Enterprise platform leveraging AI and NLP to extract information from unstructured financial documents at mass level. Analytical tool built with Java, Spring Boot, and microservices architecture.',
-    tags: ['Java', 'Spring Boot', 'NLP', 'ActiveMQ', 'AWS', 'Docker'],
+      'Enterprise-scale AI platform leveraging NLP and machine learning to extract structured information from unstructured financial documents. The core extractor model is now deployed across 11 data-driven projects, reducing manual workforce by 70% while significantly improving accuracy and processing efficiency. Built with Java, Spring Boot, and a resilient microservices architecture using ActiveMQ for async communication, ETL pipelines for data transformation, and DataDog/Grafana for real-time performance monitoring. Secured with AWS Secrets Manager and deployed via Azure DevOps CI/CD pipelines with Docker and Kubernetes.',
+    tags: ['Java', 'Spring Boot', 'NLP', 'ActiveMQ', 'AWS', 'Docker', 'Kubernetes', 'ETL', 'DataDog'],
     images: [foreseerImg, foreseer2Img],
     highlight: true,
-  },
-  {
-    icon: Building2,
-    title: 'DOE - Abu Dhabi',
-    company: 'Department of Energy',
-    description:
-      'Government licensing platform with robust securities and authentication. Established B2B network for licensing of energy plants with complex data exchange mechanisms.',
-    tags: ['Java', 'J2EE', 'Spring Security', 'REST APIs', 'XML/EDI'],
-    images: [doeImg, doe1Img, doe2Img],
+    stats: [
+      { label: 'Projects Using Model', value: '11' },
+      { label: 'Manual Work Reduced', value: '70%' },
+      { label: 'Architecture', value: 'Microservices' },
+    ],
   },
   {
     icon: HeartPulse,
     title: 'Plan4HealthCare',
-    company: 'Govt. Healthcare Platform',
+    company: 'Govt. Healthcare Platform · Covalience',
     description:
-      'Government healthcare financial and budgeting platform. Budgeting software for government medical hospitals to estimate and maintain budget in real time.',
-    tags: ['Java', 'Spring Boot', 'Hibernate', 'MySQL', 'Angular'],
+      'Full-stack government healthcare financial platform enabling real-time budget estimation and management for government medical hospitals. Designed end-to-end modules for budgeting workflows, financial reporting, and resource allocation. Built with Spring Boot backend, Angular frontend, and Hibernate ORM with MySQL, serving multiple hospital departments with role-based access control and audit logging.',
+    tags: ['Java', 'Spring Boot', 'Hibernate', 'MySQL', 'Angular', 'REST APIs'],
     images: [healthcareImg, healthcare2Img],
+  },
+  {
+    icon: Building2,
+    title: 'DOE - Abu Dhabi Energy Licensing',
+    company: 'Department of Energy · Innovatechs',
+    description:
+      'Government B2B licensing platform for the Abu Dhabi Department of Energy, enabling secure licensing of energy plants with multi-level authentication and authorization. Engineered RESTful APIs with Java, J2EE, Hibernate, and Spring Security. Implemented complex XML-to-EDI data transformations for seamless inter-organization data exchange via FTP and reverse invocation servers. Configured JDBC adapters and managed environment migrations through the Pub-Sub model.',
+    tags: ['Java', 'J2EE', 'Spring Security', 'REST APIs', 'XML/EDI', 'Hibernate', 'FTP'],
+    images: [doeImg, doe1Img, doe2Img],
   },
 ];
 
@@ -127,9 +132,21 @@ export default function Projects() {
                   CURRENT
                 </span>
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed flex-1">
+              <p className="text-gray-400 text-sm leading-relaxed">
                 {projects[0].description}
               </p>
+
+              {projects[0].stats && (
+                <div className="flex gap-4 mt-5">
+                  {projects[0].stats.map((stat) => (
+                    <div key={stat.label} className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-4 py-2.5 text-center flex-1">
+                      <p className="text-white font-bold text-lg">{stat.value}</p>
+                      <p className="text-gray-500 text-[10px] mt-0.5">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="flex flex-wrap gap-2 mt-5">
                 {projects[0].tags.map((tag) => (
                   <span

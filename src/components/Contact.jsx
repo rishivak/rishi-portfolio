@@ -88,11 +88,13 @@ export default function Contact() {
             ))}
 
             <div className="glass-card p-5 hover:border-white/10 transition-all duration-300">
-              <p className="text-gray-500 text-xs mb-3">Full Address</p>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                <p className="text-green-400 text-xs font-medium">Open for Freelance & Contract Work</p>
+              </div>
               <p className="text-gray-400 text-sm leading-relaxed">
-                90, Shiv Choudhary Nagar, Mangyawas,<br />
-                Mansarowar Ext., Jaipur,<br />
-                Rajasthan, India — 302020
+                Available for freelance projects, contract engagements, and consulting
+                opportunities. Let&apos;s build something great together.
               </p>
             </div>
           </motion.div>
