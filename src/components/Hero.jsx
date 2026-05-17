@@ -47,7 +47,7 @@ export default function Hero() {
         <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
       </motion.div>
 
-      <div className="relative z-10 max-w-6xl mx-auto w-full grid md:grid-cols-5 gap-12 md:gap-16 items-center pt-24 md:pt-0">
+      <div className="relative z-10 max-w-6xl mx-auto w-full grid md:grid-cols-5 gap-12 md:gap-16 items-center pt-0">
         {/* Left: Text content with scroll parallax */}
         <motion.div
           style={{ y: textY, opacity: textOpacity }}
@@ -59,9 +59,9 @@ export default function Hero() {
             transition={{ duration: 0.6 }}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-6">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="w-4 h-4 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.8),0_0_20px_rgba(74,222,128,0.6),0_0_30px_rgba(74,222,128,0.4)]" />
               <span className="text-accent-light text-xs font-medium tracking-wide">
-                Available for Freelance & Contract Work
+                Available for Work
               </span>
             </div>
           </motion.div>
@@ -88,7 +88,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.35 }}
             className="mt-2 text-accent-light/80 text-sm font-medium tracking-wide uppercase"
           >
-            Senior Software Engineer
+            SDE-3 Full stack
           </motion.p>
 
           <motion.p
