@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown, Mail, Download, X } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import profileImg from '../assets/profile.png';
 
 const GithubIcon = (props) => (
@@ -31,6 +31,16 @@ export default function Hero() {
 
   const nameWords = ['Rishi Sharma'];
 
+  // Generate floating particles
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 3 + 1,
+    duration: Math.random() * 10 + 10,
+    delay: Math.random() * 5,
+  }));
+
   return (
     <section
       ref={sectionRef}
@@ -44,8 +54,95 @@ export default function Hero() {
       >
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(99,102,241,0.08)_0%,_transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(99,102,241,0.05)_0%,_transparent_40%)]" />
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(236,72,153,0.05)_0%,_transparent_40%)]" />
+        
+        {/* Animated gradient orbs */}
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+          className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.3, 0.2],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 4,
+          }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"
+        />
       </motion.div>
+
+      {/* Animated grid pattern */}
+      <motion.div
+        animate={{
+          backgroundPosition: ['0px 0px', '50px 50px', '0px 0px'],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+        className="absolute inset-0 pointer-events-none opacity-[0.02]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px',
+        }}
+      />
+
+      {/* Floating particles */}
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          animate={{
+            y: [0, -30, 0],
+            x: [0, particle.size * 2, 0],
+            opacity: [0.2, 0.5, 0.2],
+          }}
+          transition={{
+            duration: particle.duration,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: particle.delay,
+          }}
+          className="absolute pointer-events-none"
+          style={{
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+          }}
+        >
+          <div className="w-full h-full rounded-full bg-accent/40 blur-[1px]" />
+        </motion.div>
+      ))}
 
       <div className="relative z-10 max-w-6xl mx-auto w-full grid md:grid-cols-5 gap-12 md:gap-16 items-center pt-0">
         {/* Left: Text content with scroll parallax */}
@@ -58,7 +155,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(99,102,241,0.2)]">
               <span className="w-4 h-4 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.8),0_0_20px_rgba(74,222,128,0.6),0_0_30px_rgba(74,222,128,0.4)]" />
               <span className="text-accent-light text-xs font-medium tracking-wide">
                 Available for Work
@@ -128,12 +225,13 @@ export default function Hero() {
             className="mt-6 flex flex-wrap gap-2"
           >
             {['Java', 'Spring Boot', 'React', 'AWS', 'Docker'].map((tech) => (
-              <span
+              <motion.span
                 key={tech}
-                className="px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] text-xs text-gray-400"
+                whileHover={{ scale: 1.05, borderColor: 'rgba(99,102,241,0.4)' }}
+                className="px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-xs text-gray-400 backdrop-blur-sm hover:bg-white/[0.06] transition-all duration-300"
               >
                 {tech}
-              </span>
+              </motion.span>
             ))}
           </motion.div>
 
@@ -143,27 +241,33 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.55 }}
             className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3"
           >
-            <a
+            <motion.a
               href="#contact"
-              className="px-7 py-3 rounded-full bg-accent text-white text-sm font-medium hover:bg-indigo-500 hover:shadow-lg hover:shadow-accent/20 transition-all duration-300 hover:scale-105 active:scale-95"
+              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(99,102,241,0.4)" }}
+              whileTap={{ scale: 0.95 }}
+              className="px-7 py-3 rounded-full bg-accent text-white text-sm font-medium hover:bg-indigo-500 transition-all duration-300 backdrop-blur-sm shadow-[0_0_20px_rgba(99,102,241,0.3)]"
             >
               Get in Touch
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="#projects"
-              className="px-7 py-3 rounded-full border border-white/10 text-gray-300 text-sm font-medium hover:border-white/25 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95"
+              whileHover={{ scale: 1.05, borderColor: 'rgba(99,102,241,0.4)', boxShadow: "0 0 20px rgba(99,102,241,0.2)" }}
+              whileTap={{ scale: 0.95 }}
+              className="px-7 py-3 rounded-full border border-white/10 text-gray-300 text-sm font-medium hover:border-white/25 hover:text-white transition-all duration-300 backdrop-blur-sm"
             >
               View Work
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="/rishi-portfolio/Rishi_Sharma_Sr_Software_Engineer.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-3 rounded-full text-gray-400 text-sm font-medium hover:text-white transition-all duration-300 hover:scale-105"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 px-5 py-3 rounded-full text-gray-400 text-sm font-medium hover:text-white transition-all duration-300 backdrop-blur-sm border border-white/[0.06] hover:border-white/10"
             >
               <Download size={15} />
               Resume
-            </a>
+            </motion.a>
           </motion.div>
 
           <motion.div
@@ -172,31 +276,37 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.7 }}
             className="mt-8 flex items-center justify-center md:justify-start gap-4"
           >
-            <a
+            <motion.a
               href="https://github.com/rishivak"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-gray-500 hover:text-white hover:border-white/15 hover:scale-110 transition-all duration-300"
+              whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(99,102,241,0.4)", borderColor: "rgba(99,102,241,0.4)" }}
+              whileTap={{ scale: 0.95 }}
+              className="p-2.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-gray-500 hover:text-white transition-all duration-300 backdrop-blur-sm"
               aria-label="GitHub"
             >
               <GithubIcon width={16} height={16} />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="https://www.linkedin.com/in/rishivak02/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-gray-500 hover:text-white hover:border-white/15 hover:scale-110 transition-all duration-300"
+              whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(99,102,241,0.4)", borderColor: "rgba(99,102,241,0.4)" }}
+              whileTap={{ scale: 0.95 }}
+              className="p-2.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-gray-500 hover:text-white transition-all duration-300 backdrop-blur-sm"
               aria-label="LinkedIn"
             >
               <LinkedinIcon width={16} height={16} />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="mailto:rishisharma1707@gmail.com"
-              className="p-2.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-gray-500 hover:text-white hover:border-white/15 hover:scale-110 transition-all duration-300"
+              whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(99,102,241,0.4)", borderColor: "rgba(99,102,241,0.4)" }}
+              whileTap={{ scale: 0.95 }}
+              className="p-2.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-gray-500 hover:text-white transition-all duration-300 backdrop-blur-sm"
               aria-label="Email"
             >
               <Mail size={16} />
-            </a>
+            </motion.a>
           </motion.div>
         </motion.div>
 
@@ -212,8 +322,19 @@ export default function Hero() {
             className="relative cursor-pointer"
             onClick={() => setShowLightbox(true)}
           >
-            <div className="absolute -inset-4 bg-gradient-to-br from-accent/20 via-transparent to-accent/10 rounded-full blur-2xl animate-pulse" />
-            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border-2 border-white/10 shadow-2xl shadow-accent/10 hover:border-accent/30 transition-all duration-300 hover:shadow-accent/20">
+            <motion.div
+              animate={{
+                scale: [1, 1.05, 1],
+                rotate: [0, 2, -2, 0],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute -inset-4 bg-gradient-to-br from-accent/30 via-transparent to-accent/20 rounded-full blur-2xl"
+            />
+            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border-2 border-white/10 shadow-[0_0_40px_rgba(99,102,241,0.3)] backdrop-blur-sm hover:border-accent/40 transition-all duration-500">
               <img
                 src={profileImg}
                 alt="Rishi Sharma"
@@ -224,7 +345,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="absolute -bottom-2 -right-2 bg-dark-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs"
+              className="absolute -bottom-2 -right-2 bg-dark-900/80 backdrop-blur-md border border-white/10 rounded-xl px-3 py-1.5 text-xs shadow-[0_0_20px_rgba(99,102,241,0.3)]"
             >
               <span className="text-gray-400">6+ years</span>
               <span className="text-accent-light font-semibold ml-1">exp.</span>

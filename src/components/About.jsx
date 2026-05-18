@@ -61,8 +61,8 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -4, borderColor: 'rgba(255,255,255,0.15)' }}
-                className="glass-card p-5 transition-all duration-300 cursor-default"
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="gradient-border rounded-2xl p-5 transition-all duration-300 cursor-default"
               >
                 <Icon size={20} className="text-accent-light mb-3" />
                 <h3 className="text-white text-sm font-semibold">{label}</h3>

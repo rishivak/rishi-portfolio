@@ -63,15 +63,15 @@ export default function Skills() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -6, borderColor: 'rgba(255,255,255,0.15)' }}
-              className="glass-card p-6 transition-all duration-300 cursor-default"
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="gradient-border rounded-2xl p-6 transition-all duration-300 cursor-default"
             >
               <h3 className="text-white text-sm font-semibold mb-4">{cat.title}</h3>
               <div className="flex flex-wrap gap-2">
                 {cat.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="text-xs px-3 py-1.5 rounded-full bg-white/[0.04] text-gray-400 border border-white/[0.06] hover:border-accent/20 hover:text-accent-light transition-colors duration-200"
+                    className="text-xs px-3 py-1.5 rounded-full bg-white/[0.04] text-gray-400 border border-white/[0.06] hover:border-accent/30 hover:text-accent-light hover:bg-accent/10 transition-all duration-200"
                   >
                     {skill}
                   </span>
