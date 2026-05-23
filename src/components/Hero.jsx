@@ -158,7 +158,7 @@ export default function Hero() {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(99,102,241,0.2)]">
               <span className="w-4 h-4 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.8),0_0_20px_rgba(74,222,128,0.6),0_0_30px_rgba(74,222,128,0.4)]" />
               <span className="text-accent-light text-xs font-medium tracking-wide">
-                Available for Work
+                Get you next AI product Build
               </span>
             </div>
           </motion.div>
