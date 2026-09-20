@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local headless smoke harness (scratch — safe to delete)
+.smoke

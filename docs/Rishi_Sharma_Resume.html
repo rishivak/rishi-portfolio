@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rishi Sharma — Senior Backend &amp; Full-Stack Engineer</title>
+<meta name="description" content="Rishi Sharma — Senior Backend and Full-Stack Engineer specialising in distributed systems, APIs and financial data platforms.">
+<style>
+/* ============================================================
+   A4 print geometry. 210 x 297mm, 14mm margins -> 182mm column.
+   ============================================================ */
+@page { size: A4 portrait; margin: 14mm 14mm 13mm; }
+
+:root{
+  --ink:      #14181f;
+  --ink-2:    #3c4552;
+  --ink-3:    #616c7c;
+  --rule:     #d9dee6;
+  --rule-2:   #eceff4;
+  --accent:   #0b4f9e;
+  --accent-2: #083c78;
+  --page-bg:  #edeff3;
+
+  --f-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --f-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family: var(--f-sans);
+  color: var(--ink);
+  background: var(--page-bg);
+  font-size: 8.9pt;
+  line-height: 1.33;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- screen: draw the A4 sheets so WYSIWYG holds ---- */
+.sheet{
+  width: 210mm;
+  min-height: 297mm;
+  padding: 14mm 14mm 13mm;
+  margin: 10mm auto;
+  background: #fff;
+  box-shadow: 0 2px 14px rgba(20,24,31,.16);
+}
+
+/* ============================ header ============================ */
+header.masthead{ margin-bottom: 3.2mm; }
+h1{
+  font-size: 23pt;
+  font-weight: 650;
+  letter-spacing: -.4pt;
+  line-height: 1.02;
+  margin: 0;
+  color: var(--ink);
+}
+h1 .sur{ font-weight: 350; color: var(--ink-2); }
+.role{
+  font-size: 10.6pt;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: .1pt;
+  margin: 1.6mm 0 0;
+}
+.contact{
+  margin: 2.4mm 0 0;
+  font-size: 8.9pt;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.contact a{ color: var(--ink-2); text-decoration: none; }
+.contact a.lnk{ color: var(--accent); font-weight: 550; }
+.contact .sep{ color: var(--rule); }
+
+/* ============================ sections ============================ */
+section{ margin-top: 2.5mm; }
+h2{
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 1.15pt;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.5mm;
+  padding-bottom: 0.8mm;
+  border-bottom: .5pt solid var(--rule);
+  break-after: avoid;
+  page-break-after: avoid;
+}
+p{ margin: 0 0 2mm; }
+.summary{ font-size: 9.2pt; color: var(--ink-2); line-height: 1.38; margin: 0; }
+.summary strong{ color: var(--ink); font-weight: 600; }
+
+/* ============================ skills ============================ */
+.skills{ margin: 0; }
+.skills .row{
+  display: flex;
+  gap: 3mm;
+  padding: 0.4mm 0;
+  border-bottom: .5pt solid var(--rule-2);
+  break-inside: avoid;
+}
+.skills .row:last-child{ border-bottom: none; }
+.skills dt{
+  flex: 0 0 34mm;
+  font-size: 8.4pt;
+  font-weight: 700;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: .4pt;
+  padding-top: .5pt;
+}
+.skills dd{ margin: 0; font-size: 8.9pt; color: var(--ink-2); }
+
+/* ============================ experience ============================ */
+.job{ margin-top: 2.6mm; }
+.job:first-of-type{ margin-top: 0; }
+.job-head{
+  break-after: avoid; page-break-after: avoid;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4mm;
+}
+.job-co{ font-size: 10.4pt; font-weight: 650; color: var(--ink); }
+.job-when{
+  font-size: 8.7pt;
+  font-weight: 600;
+  color: var(--ink-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.job-role{
+  break-after: avoid; page-break-after: avoid;
+  font-size: 9.2pt;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: .4mm;
+}
+.job-where{ font-size: 8.7pt; color: var(--ink-3); font-weight: 400; }
+
+/* a named product stream inside a role */
+.stream{
+  margin-top: 2.2mm;
+  padding-left: 3.2mm;
+  border-left: 1.4pt solid var(--accent);
+}
+.stream-head{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4mm;
+  margin-bottom: 1mm;
+}
+.stream-name{ font-size: 9.2pt; font-weight: 650; color: var(--ink); }
+.stream-name .desc{ font-weight: 400; color: var(--ink-3); }
+.stream-when{
+  font-size: 8.4pt; font-weight: 600; color: var(--ink-3);
+  white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.stream-tech{
+  font-size: 8.1pt;
+  color: var(--ink-3);
+  margin: 0 0 1.0mm;
+  font-family: var(--f-mono);
+  letter-spacing: -.1pt;
+}
+
+ul{ margin: 0.7mm 0 0; padding-left: 4.2mm; }
+li{ margin: 0 0 0.65mm; line-height: 1.34; break-inside: avoid; }
+li::marker{ color: var(--accent); }
+li b{ font-weight: 620; color: var(--ink); }
+code{
+  font-family: var(--f-mono);
+  font-size: .9em;
+  color: var(--accent-2);
+  background: #f2f5fa;
+  padding: 0 .7mm;
+  border-radius: .7mm;
+}
+
+/* ============================ compact lists ============================ */
+.grid2{ display: flex; gap: 6mm; margin-top: 0.5mm; }
+.grid2 > div{ flex: 1 1 0; }
+.item{ margin-bottom: 1.6mm; break-inside: avoid; }
+.item:last-child{ margin-bottom: 0; }
+.item .t{ font-size: 9.6pt; font-weight: 620; color: var(--ink); }
+.item .s{ font-size: 8.8pt; color: var(--ink-3); }
+.item .d{ font-size: 9.2pt; color: var(--ink-2); margin-top: .3mm; }
+
+/* ============================ print ============================ */
+@media print{
+  body{ background: #fff; font-size: 8.9pt; }
+  .sheet{
+    width: auto; min-height: 0;
+    padding: 0; margin: 0;
+    box-shadow: none;
+  }
+  .sheet + .sheet{ break-before: page; page-break-before: always; }
+  a{ color: inherit; text-decoration: none; }
+  h2{ break-after: avoid; page-break-after: avoid; }
+  .item, li, .skills .row{ break-inside: avoid; page-break-inside: avoid; }
+  p, ul{ orphans: 2; widows: 2; }
+  .job-head, .job-role, .stream-head{ break-after: avoid; page-break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================== PAGE 1 ======================== -->
+<div class="sheet">
+
+  <header class="masthead">
+    <h1>Rishi <span class="sur">Sharma</span></h1>
+    <p class="role">Senior Backend &amp; Full-Stack Engineer &nbsp;&middot;&nbsp; Distributed Systems, APIs &amp; Financial Data Platforms</p>
+    <p class="contact">
+      <a href="mailto:rishisharma1707@gmail.com">rishisharma1707@gmail.com</a>
+      <span class="sep">&nbsp; | &nbsp;</span>+91 876-435-8167
+      <span class="sep">&nbsp; | &nbsp;</span>Jaipur, Rajasthan, India
+      <span class="sep">&nbsp; | &nbsp;</span>IST (UTC+5:30) &middot; open to remote engagements
+      <br>
+      <a class="lnk" href="https://www.linkedin.com/in/rishivak02/">linkedin.com/in/rishivak02</a>
+      <span class="sep">&nbsp; | &nbsp;</span><a class="lnk" href="https://github.com/rishivak">github.com/rishivak</a>
+      <span class="sep">&nbsp; | &nbsp;</span><a class="lnk" href="https://rishivak.github.io/rishi-portfolio/">rishivak.github.io/rishi-portfolio</a>
+    </p>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <p class="summary">
+      Backend-focused engineer with nearly seven years building server-side Java systems, currently
+      delivering on two flagship products at <strong>S&amp;P Global Market Intelligence</strong>. Present
+      work is distributed-systems engineering on an <strong>Apache Ignite</strong> data grid serving
+      financial time-series and point-in-time data &mdash; owning features end to end, from HTTP API
+      contract through distributed compute to regression coverage. Strongest in the hard parts: API
+      platform performance, type-safe domain modelling, and the numerical correctness of financial
+      calculations. An MBA in Finance makes the domain readable rather than something to be translated.
+    </p>
+  </section>
+
+  <section>
+    <h2>Core Technical Skills</h2>
+    <dl class="skills">
+      <div class="row"><dt>Languages</dt><dd>Java (8&ndash;21, J2EE), SQL / PL&#8209;SQL, JavaScript, TypeScript</dd></div>
+      <div class="row"><dt>Backend</dt><dd>Spring Boot, Spring MVC, Spring Security, Hibernate, Undertow, REST API design, OpenAPI / Swagger, Microservices</dd></div>
+      <div class="row"><dt>Distributed &amp; Async</dt><dd>Apache Ignite (distributed cache, compute, services), ActiveMQ, JMS, event-driven design</dd></div>
+      <div class="row"><dt>Data</dt><dd>MySQL, Oracle, SQL Server, Protobuf, JDBC / HikariCP, query &amp; index optimisation</dd></div>
+      <div class="row"><dt>Frontend</dt><dd>Angular, React, JavaScript, jQuery</dd></div>
+      <div class="row"><dt>Cloud &amp; DevOps</dt><dd>AWS (S3, Secrets Manager), Docker, Kubernetes, Azure DevOps, GitHub Actions, CI/CD, Git, Gradle, Maven</dd></div>
+      <div class="row"><dt>Testing</dt><dd>JUnit, TDD, Mockito, API regression suites (Bruno), code review</dd></div>
+      <div class="row"><dt>Observability</dt><dd>DataDog, Grafana</dd></div>
+      <div class="row"><dt>Integration</dt><dd>webMethods, XML / EDI transformation, FTP, pub&ndash;sub messaging</dd></div>
+      <div class="row"><dt>Also worked with</dt><dd>Redis, ElasticSearch</dd></div>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Professional Experience</h2>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-co">S&amp;P Global &mdash; Market Intelligence</div>
+        <div class="job-when">Sept 2024 &ndash; Present</div>
+      </div>
+      <div class="job-role">Senior Software Engineer III (Full-Stack) <span class="job-where">&nbsp;&middot;&nbsp; India</span></div>
+
+      <div class="stream">
+        <div class="stream-head">
+          <div class="stream-name">ClariFI Phoenix <span class="desc">&mdash; distributed financial data &amp; analytics platform</span></div>
+          <div class="stream-when">Jun 2026 &ndash; Present</div>
+        </div>
+        <p class="stream-tech">Java 21 · Apache Ignite 2.18 · Undertow · OpenAPI · Protobuf · SQL Server · Gradle</p>
+        <ul>
+          <li><b>Re-architected OpenAPI delivery from per-request assembly to a boot-time pipeline.</b>
+            Built recursive <code>$ref</code> resolution with cycle detection, syntax validation of every
+            JSON and Ion spec fragment, and a pre-computed gzip payload with a SHA&#8209;256 ETag. An invalid
+            fragment now fails application startup rather than surfacing as a runtime error, and repeat
+            spec requests resolve to a <code>304</code> instead of re-serialising the document.</li>
+          <li><b>Designed and shipped the user-facing Data Catalog read API</b>
+            (<code>GET /api/data/sources</code>, <code>/api/data/queries</code>), separating user-scoped
+            access from the pre-existing admin CRUD surface and consolidating the duplicated admin/user
+            handler logic onto shared abstract base handlers.</li>
+          <li><b>Authored two financial return functions for the platform's transform engine.</b>
+            A rolling multi-period <em>geometric compounded return</em> incorporating price appreciation
+            and intraperiod reinvested dividends, with explicit ex-dividend date classification; and a
+            <em>cumulative return</em> supporting both rolling and expanding windows.</li>
+          <li><b>Implemented multi-window expansion for transform steps,</b> letting a single formula
+            fan out into one series per requested window while preserving the grouping the response
+            layer needs.</li>
+          <li><b>Hardened correctness at the platform's edges:</b> replaced string-typed frequency with the
+            domain <code>Frequency</code> type across the linked-basket path and added alias support;
+            fixed a null-pointer failure in the basket refresh endpoint; corrected date-range handling in
+            the ATR, EMA and RSI period functions; and made <code>dataExport/close</code> idempotent so
+            closing a session twice no longer errors.</li>
+          <li><b>Backed every change with automated coverage:</b> JUnit suites for the new transform
+            functions and their failure modes, plus 18 Bruno API regression collections exercising valid,
+            boundary and rejection cases.</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- ======================== PAGE 2 ======================== -->
+<div class="sheet">
+
+  <section style="margin-top:0">
+    <h2>Professional Experience <span style="font-weight:400;letter-spacing:0;text-transform:none">(continued)</span></h2>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-co">S&amp;P Global &mdash; Market Intelligence <span class="job-where">&middot; Senior Software Engineer III (continued)</span></div>
+        <div class="job-when">Sept 2024 &ndash; Present</div>
+      </div>
+
+      <div class="stream">
+        <div class="stream-head">
+          <div class="stream-name">Foreseer&#8209;AI <span class="desc">&mdash; AI/NLP extraction from unstructured financial documents</span></div>
+          <div class="stream-when">Sept 2024 &ndash; Jun 2026</div>
+        </div>
+        <p class="stream-tech">Java · Spring Boot · Microservices · ActiveMQ · AWS · Azure DevOps · Docker · Kubernetes</p>
+        <ul>
+          <li><b>Enhanced the NLP extraction model</b> behind a platform that turns unstructured financial
+            documents into structured, queryable data, and owned the ETL pre-processing stage that
+            normalises heterogeneous source documents into a single XML representation for real-time
+            downstream consumption.</li>
+          <li>Integrated <b>ActiveMQ</b> message brokering to decouple document-processing microservices,
+            converting synchronous hand-offs into asynchronous delivery and raising throughput.</li>
+          <li><b>Closed the loop from observability signal to database fix:</b> instrumented the services with
+            <b>DataDog</b> and <b>Grafana</b>, then used those traces to target SQL indexing and query
+            refactoring at the queries that were actually slow, rather than tuning blind.</li>
+          <li>Moved credential and token handling to <b>AWS Secrets Manager</b>, and <b>built the Azure
+            DevOps delivery pipelines</b> for the microservice estate &mdash; automating build, test and
+            release through Docker and Kubernetes so shipping became a repeatable pipeline run instead of
+            a coordinated manual exercise.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-co">Covalience</div>
+        <div class="job-when">Jan 2023 &ndash; Aug 2024</div>
+      </div>
+      <div class="job-role">Sr. Application Engineer II (Full-Stack) <span class="job-where">&nbsp;&middot;&nbsp; Chandigarh, India</span></div>
+
+      <div class="stream">
+        <div class="stream-head">
+          <div class="stream-name">Plan4HealthCare <span class="desc">&mdash; government healthcare budgeting platform</span></div>
+        </div>
+        <p class="stream-tech">Java · J2EE · Spring Boot · Spring MVC · Angular · SQL · Docker · CI/CD</p>
+        <ul>
+          <li>Delivered server-side Java and J2EE features behind Spring REST APIs for a platform that lets
+            government medical hospitals estimate and track budgets in real time, contributing to the
+            architecture of critical features.</li>
+          <li>Optimised SQL queries, stored procedures and triggers behind the platform's highest-traffic
+            screens.</li>
+          <li>Built and configured CI/CD pipelines and Docker containers to standardise how the team
+            shipped to each environment, and worked across the stack &mdash; pairing Angular front-end work
+            with the backing services rather than handing off at the API boundary.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-co">Innovatechs Technology Solutions</div>
+        <div class="job-when">Jan 2020 &ndash; Jan 2023</div>
+      </div>
+      <div class="job-role">Software Engineer (Java) <span class="job-where">&nbsp;&middot;&nbsp; Hyderabad, India</span></div>
+
+      <div class="stream">
+        <div class="stream-head">
+          <div class="stream-name">Department of Energy, Abu Dhabi <span class="desc">&mdash; government licensing platform</span></div>
+        </div>
+        <p class="stream-tech">Java · J2EE · Spring Boot · Spring Security · Hibernate · webMethods · AWS S3 · EDI</p>
+        <ul>
+          <li>Engineered <b>webMethods</b> integrations in Java and J2EE to establish a B2B network for
+            energy-plant licensing, focusing on system performance.</li>
+          <li>Built RESTful APIs with Java, Hibernate and Spring Boot, secured with Spring Security and
+            integrated with the Amazon S3 client.</li>
+          <li>Developed and mapped <b>XML-to-EDI</b> document transformation for partner data exchange over
+            FTP and reverse-invoke servers, and configured JDBC adapters plus pub&ndash;sub patch migration
+            between environments.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="grid2">
+      <div>
+        <div class="item">
+          <div class="t">B.Tech &mdash; Electronics &amp; Communication Engineering</div>
+          <div class="s">B.K. Birla Institute of Engineering &amp; Technology, Pilani &nbsp;&middot;&nbsp; 2016</div>
+        </div>
+      </div>
+      <div>
+        <div class="item">
+          <div class="t">MBA &mdash; Finance</div>
+          <div class="s">Jaipur National University &nbsp;&middot;&nbsp; 2021</div>
+          <div class="d">Domain grounding for financial-data and fintech engagements.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Certifications &amp; Languages</h2>
+    <div class="grid2">
+      <div>
+        <div class="item">
+          <div class="t">Certified API Management Associate</div>
+          <div class="s">Software AG</div>
+        </div>
+      </div>
+      <div>
+        <div class="item">
+          <div class="t">Certified webMethods.io Integration Associate</div>
+          <div class="s">Software AG</div>
+        </div>
+      </div>
+      <div>
+        <div class="item">
+          <div class="t">English</div>
+          <div class="s">Professional working proficiency</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</div>
+
+</body>
+</html>
