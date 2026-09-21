@@ -21,6 +21,33 @@
   --bone-2: #9ba3b2;
   --bone-3: #5c6472;
 
+  /* ---- the stage spectrum -----------------------------------------------
+     Four hues, one per pipeline stage, shared by the DOM and the 3D world so a
+     heading, a border, a tech token and a 3D node all take colour from which
+     stage they belong to. Colour carries meaning here; it is not decoration.
+
+     Contrast against --void (#06070a), computed not eyeballed:
+       --s-data   3.73:1  FAILS AA for text -> marks, borders and geometry only
+       --s-eng    7.59:1  passes
+       --s-intel 12.63:1  passes
+       --s-decide 10.30:1 passes
+     --s-data-text is the same hue (205deg) and saturation lifted to 5.00:1, and
+     is the only DATA value allowed to carry type. */
+  --s-data: #4e6e85;
+  --s-data-text: #5d839f;
+  --s-eng: #5fa8c7;
+  --s-intel: #a9d3e8;
+  --s-decide: #e8b04b;
+
+  --s-data-w: rgba(78, 110, 133, 0.14);
+  --s-eng-w: rgba(95, 168, 199, 0.14);
+  --s-intel-w: rgba(169, 211, 232, 0.13);
+  --s-decide-w: rgba(232, 176, 75, 0.13);
+
+  /* ---- world-only ------------------------------------------------------- */
+  --fog: #07080b;
+  --grid: rgba(232, 236, 245, 0.045);
+
   /* ---- accent: exactly one ---------------------------------------------- */
   --signal: #e8b04b;
   --signal-2: #f5cd86;
@@ -65,4 +92,38 @@
 
   /* ---- depth: one shadow only ------------------------------------------- */
   --lift: 0 32px 80px -24px rgba(0, 0, 0, 0.85);
+}
+
+/* ============================================================================
+   Stage scoping.
+
+   `data-stage` on any element rebinds the generic tokens for its whole subtree,
+   so components never name a specific hue — they use --stage and inherit the
+   right one. One primary stage per section; descendants may override.
+   ========================================================================= */
+[data-stage] {
+  --stage: var(--s-eng);
+  --stage-text: var(--s-eng);
+  --stage-w: var(--s-eng-w);
+}
+[data-stage='data'] {
+  --stage: var(--s-data);
+  /* The one hue that needs a separate value for type. */
+  --stage-text: var(--s-data-text);
+  --stage-w: var(--s-data-w);
+}
+[data-stage='engineering'] {
+  --stage: var(--s-eng);
+  --stage-text: var(--s-eng);
+  --stage-w: var(--s-eng-w);
+}
+[data-stage='intelligence'] {
+  --stage: var(--s-intel);
+  --stage-text: var(--s-intel);
+  --stage-w: var(--s-intel-w);
+}
+[data-stage='decision'] {
+  --stage: var(--s-decide);
+  --stage-text: var(--s-decide);
+  --stage-w: var(--s-decide-w);
 }

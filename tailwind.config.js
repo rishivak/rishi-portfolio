@@ -18,6 +18,15 @@ export default {
         'signal-2': 'var(--signal-2)',
         'signal-dim': 'var(--signal-dim)',
         'signal-ghost': 'var(--signal-ghost)',
+        // The stage spectrum. `stage` follows the nearest [data-stage].
+        stage: 'var(--stage)',
+        'stage-text': 'var(--stage-text)',
+        'stage-w': 'var(--stage-w)',
+        data: 'var(--s-data)',
+        'data-text': 'var(--s-data-text)',
+        eng: 'var(--s-eng)',
+        intel: 'var(--s-intel)',
+        decide: 'var(--s-decide)',
         'paper-ink': 'var(--paper-ink)',
         'paper-ink-2': 'var(--paper-ink-2)',
         'paper-ink-3': 'var(--paper-ink-3)',
@@ -26,6 +35,7 @@ export default {
         'hair-2': 'var(--hair-2)',
       },
       borderColor: {
+        stage: 'var(--stage)',
         hair: 'var(--hair)',
         'hair-2': 'var(--hair-2)',
         'paper-hair': 'var(--paper-hair)',

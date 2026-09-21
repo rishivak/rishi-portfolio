@@ -141,3 +141,64 @@ html.has-custom-cursor,
 html.has-custom-cursor * {
   cursor: none !important;
 }
+
+/* ============================================================================
+   The portrait ring.
+
+   A 2px conic gradient through all four stage hues, drawn as a border-box mask
+   so it reads as a ring rather than a glow. Static at rest; it rotates only on
+   hover, and prefers-reduced-motion keeps the ring while stopping the rotation.
+   ========================================================================= */
+@property --ring-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.portrait-ring {
+  position: relative;
+  border-radius: 1rem;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--ring-angle),
+    var(--s-data),
+    var(--s-eng),
+    var(--s-intel),
+    var(--s-decide),
+    var(--s-data)
+  );
+  transition: transform var(--d-2) var(--e-out);
+}
+
+.portrait-ring img {
+  border-radius: calc(1rem - 2px);
+  display: block;
+  filter: saturate(0.85);
+  transition: filter var(--d-2) var(--e-out);
+}
+
+.portrait-ring:hover,
+.portrait-ring:focus-within {
+  animation: ring-spin 9s linear infinite;
+  transform: scale(1.015);
+}
+
+.portrait-ring:hover img,
+.portrait-ring:focus-within img {
+  filter: saturate(1);
+}
+
+@keyframes ring-spin {
+  to {
+    --ring-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The ring stays; only the rotation and the scale go. */
+  .portrait-ring:hover,
+  .portrait-ring:focus-within {
+    animation: none;
+    transform: none;
+  }
+}

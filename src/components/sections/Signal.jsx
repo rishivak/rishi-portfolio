@@ -1,30 +1,24 @@
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { profile } from '../../data/profile';
 import { Section } from '../primitives/Section';
 import { SeriesField } from '../visuals/SeriesField';
 import { EASE_OUT } from '../../lib/motion';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import { scrollToSection } from '../../lib/scrollTo';
-
-const HOLD = 3800;
+import { asset } from '../../lib/url';
+import portrait from '../../assets/profile-crop.png';
 
 /**
  * 00 — SIGNAL.
  *
- * The whole section is three things: a name at the largest scale the viewport
- * allows, one rotating claim beneath it, and the series field behind both.
- * Everything else that might have gone here was cut on purpose.
+ * The hierarchy is deliberate and in this order: portrait, name and
+ * designation first; then expertise; then the headline and positioning; then
+ * the series field behind all of it; then the cursor. The field is atmosphere,
+ * not a subject — it is damped behind the type and runs at roughly half its
+ * former opacity.
  */
 export function Signal() {
-  const [phrase, setPhrase] = useState(0);
   const reduced = useReducedMotion();
-
-  useEffect(() => {
-    if (reduced) return undefined;
-    const id = setInterval(() => setPhrase((i) => (i + 1) % profile.statements.length), HOLD);
-    return () => clearInterval(id);
-  }, [reduced]);
 
   return (
     <Section id="signal" label="Introduction" full className="flex flex-col justify-between overflow-hidden">
@@ -36,7 +30,7 @@ export function Signal() {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(120% 78% at 50% 62%, rgba(6,7,10,0.92) 0%, rgba(6,7,10,0.62) 45%, rgba(6,7,10,0.2) 100%)',
+              'radial-gradient(115% 80% at 42% 58%, rgba(6,7,10,0.97) 0%, rgba(6,7,10,0.86) 38%, rgba(6,7,10,0.5) 70%, rgba(6,7,10,0.25) 100%)',
           }}
         />
       </div>
@@ -54,6 +48,20 @@ export function Signal() {
           </span>
           <span>{profile.discipline}</span>
         </motion.p>
+
+        <div className="flex flex-wrap items-end gap-x-8 gap-y-6">
+        {/* Portrait leads the name, per the requested hierarchy:
+            name + portrait + designation -> expertise -> field -> cursor. */}
+        <motion.figure
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.14, ease: EASE_OUT }}
+          className="mb-2 shrink-0"
+        >
+          <span className="portrait-ring block w-28 sm:w-36">
+            <img src={portrait} alt="Rishi Sharma" width="552" height="488" decoding="async" />
+          </span>
+        </motion.figure>
 
         <h1 className="font-display text-mega uppercase" style={{ color: 'var(--bone)' }}>
           <span className="sr-only">
@@ -73,24 +81,79 @@ export function Signal() {
           ))}
         </h1>
 
-        {/* The claim. One line, replaced rather than accumulated. */}
-        <div className="relative mt-10 h-[2.6em] sm:h-[1.6em]">
-          <p className="sr-only">{profile.statements[0]}</p>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.p
-              key={phrase}
-              aria-hidden="true"
-              initial={{ opacity: 0, y: reduced ? 0 : 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: reduced ? 0 : -14 }}
-              transition={{ duration: 0.55, ease: EASE_OUT }}
-              className="absolute inset-0 font-mono text-[clamp(0.8rem,1.9vw,1.15rem)] uppercase tracking-[0.2em]"
-              style={{ color: 'var(--bone-2)' }}
-            >
-              {profile.statements[phrase]}
-            </motion.p>
-          </AnimatePresence>
         </div>
+
+        {/* Expertise — what the designation actually means. */}
+        <motion.ul
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.62 }}
+          className="mt-8 flex flex-wrap gap-x-6 gap-y-2"
+        >
+          {profile.expertise.map((item) => (
+            <li key={item} className="meta" style={{ color: 'var(--bone-2)' }}>
+              {item}
+            </li>
+          ))}
+        </motion.ul>
+
+        {/* The headline, then the positioning. */}
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.7, ease: EASE_OUT }}
+          className="mt-10 max-w-[24ch] font-display text-h2 axis-narrow"
+          style={{ color: 'var(--bone)' }}
+        >
+          {profile.headline}
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.8 }}
+          className="mt-8 grid max-w-measure gap-4"
+        >
+          {profile.positioning.map((para, i) => (
+            <p key={i} className="text-body" style={{ color: i === 0 ? 'var(--bone)' : 'var(--bone-2)' }}>
+              {para}
+            </p>
+          ))}
+        </motion.div>
+
+        {/* Primary links — the five things a visitor might actually want. */}
+        <motion.ul
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.95 }}
+          className="mt-10 flex flex-wrap gap-2"
+        >
+          {profile.primaryLinks.map((link) => {
+            const shared =
+              'meta border border-hair px-4 py-2.5 transition-colors duration-1 ease-out hover:border-signal hover:text-signal';
+            if (link.to) {
+              return (
+                <li key={link.id}>
+                  <button type="button" onClick={() => scrollToSection(link.to)} className={shared}>
+                    {link.label}
+                  </button>
+                </li>
+              );
+            }
+            return (
+              <li key={link.id}>
+                <a
+                  href={link.external ?? asset(link.asset)}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className={shared}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })}
+        </motion.ul>
       </div>
 
       <motion.div
@@ -116,7 +179,7 @@ export function Signal() {
 
         <button
           type="button"
-          onClick={() => scrollToSection('thesis')}
+          onClick={() => scrollToSection('trajectory')}
           className="meta group flex items-center gap-3 transition-colors duration-1 ease-out hover:text-signal"
           style={{ color: 'var(--bone-3)' }}
         >

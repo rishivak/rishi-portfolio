@@ -19,10 +19,20 @@ import { useFinePointer } from '../../lib/useMediaQuery';
  * shared rAF loop, and no rendering at all while offscreen.
  */
 
-const COUNT_DESKTOP = 22;
-const COUNT_MOBILE = 11;
+// Calmer than it was. The hero's job is the name, the portrait and the
+// designation; the field is atmosphere behind them, not a competing subject.
+const COUNT_DESKTOP = 14;
+const COUNT_MOBILE = 8;
 const SAMPLES = 132;
-const DRIFT = 0.055;
+const DRIFT = 0.033; // ~40% slower
+
+/**
+ * The band the hero type occupies, as a fraction of height. Series amplitude is
+ * damped inside it, so nothing moves sharply behind the most important words on
+ * the site. The field still crosses the band — it just stops waving there.
+ */
+const QUIET_BAND = [0.24, 0.72];
+const QUIET_DAMP = 0.22;
 
 // A series is three harmonics with fixed phases — deterministic, infinite in x,
 // and cheap enough to evaluate thousands of times a frame.
@@ -68,13 +78,17 @@ export function SeriesField({ count }) {
     (ctx, { w, h, t }) => {
       const series = seriesRef.current;
       // Mostly zero, with occasional smooth peaks — agreement is the exception.
-      const align = Math.max(0, Math.sin(t * 0.085)) ** 7;
+      // The convergence pulse, slowed to match the drift.
+      const align = Math.max(0, Math.sin(t * 0.05)) ** 7;
       const mx = pointer.current.active ? pointer.current.x : -1;
       const hits = [];
 
       for (let i = 0; i < series.length; i += 1) {
         const s = series[i];
-        const baseY = h * (0.12 + s.lane * 0.76);
+        const lane = 0.12 + s.lane * 0.76;
+        const baseY = h * lane;
+        // Inside the type band the series flattens toward its own baseline.
+        const damp = lane > QUIET_BAND[0] && lane < QUIET_BAND[1] ? QUIET_DAMP : 1;
         ctx.beginPath();
 
         for (let j = 0; j <= SAMPLES; j += 1) {
@@ -82,7 +96,7 @@ export function SeriesField({ count }) {
           const phase = (px / w) * 6.2 + t * DRIFT * s.speed;
           const own = evaluate(s, phase);
           const value = own + (consensus(phase) - own) * align;
-          const py = baseY + value * s.amp * h;
+          const py = baseY + value * s.amp * h * damp;
           if (j === 0) ctx.moveTo(px, py);
           else ctx.lineTo(px, py);
 
@@ -92,7 +106,8 @@ export function SeriesField({ count }) {
         }
 
         // Coherent moments brighten the whole field — the only time it asserts itself.
-        ctx.strokeStyle = `rgba(232, 176, 75, ${(0.07 + align * 0.16) * (s.weight > 1 ? 1.8 : 1)})`;
+        // Roughly half the previous opacity: texture, not line art.
+        ctx.strokeStyle = `rgba(232, 176, 75, ${(0.035 + align * 0.075) * (s.weight > 1 ? 1.8 : 1)})`;
         ctx.lineWidth = s.weight;
         ctx.stroke();
       }
@@ -100,7 +115,7 @@ export function SeriesField({ count }) {
       if (mx < 0) return;
 
       // ---- inspector -------------------------------------------------------
-      ctx.strokeStyle = 'rgba(232, 236, 245, 0.16)';
+      ctx.strokeStyle = 'rgba(232, 236, 245, 0.13)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(mx + 0.5, 0);

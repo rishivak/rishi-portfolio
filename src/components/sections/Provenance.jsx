@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { certifications, education, languages } from '../../data/provenance';
 import { profile } from '../../data/profile';
 import { Section } from '../primitives/Section';
+import { stageFor, sectionById } from '../../data/nav';
 import { Kicker } from '../primitives/Kicker';
 import { ONCE, rise, stagger } from '../../lib/motion';
 
@@ -29,9 +30,9 @@ function Row({ left, right, note }) {
  */
 export function Provenance() {
   return (
-    <Section id="provenance" label="Provenance">
+    <Section id="provenance" stage={stageFor('provenance')} label="Provenance">
       <div className="shell">
-        <Kicker index="06">Provenance</Kicker>
+        <Kicker index={sectionById['provenance'].index}>Provenance</Kicker>
         <motion.h2
           variants={rise}
           initial="hidden"

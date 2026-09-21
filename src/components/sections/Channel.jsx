@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { profile } from '../../data/profile';
 import { Section } from '../primitives/Section';
+import { stageFor, sectionById } from '../../data/nav';
 import { Kicker } from '../primitives/Kicker';
 import { MagneticButton } from '../primitives/MagneticButton';
 import { ONCE, rise, stagger } from '../../lib/motion';
@@ -31,9 +32,9 @@ export function Channel() {
   };
 
   return (
-    <Section id="channel" label="Contact" className="pb-24">
+    <Section id="channel" stage={stageFor('channel')} label="Contact" className="pb-24">
       <div className="shell">
-        <Kicker index="07">Open Channel</Kicker>
+        <Kicker index={sectionById['channel'].index}>Open Channel</Kicker>
 
         <motion.a
           variants={rise}

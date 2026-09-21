@@ -1,23 +1,9 @@
-export const education = [
-  {
-    id: 'btech',
-    degree: 'B.Tech — Electronics & Communication Engineering',
-    school: 'B.K. Birla Institute of Engineering & Technology, Pilani',
-    year: '2016',
-    note: null,
-  },
-  {
-    id: 'mba',
-    degree: 'MBA — Finance',
-    school: 'Jaipur National University',
-    year: '2021',
-    note: 'Domain grounding for financial-data and fintech engagements.',
-  },
-];
+import { certifications as certs, education as edu } from './experience';
 
-export const certifications = [
-  { id: 'apim', name: 'Certified API Management Associate', issuer: 'Software AG' },
-  { id: 'wmio', name: 'Certified webMethods.io Integration Associate', issuer: 'Software AG' },
-];
-
+/**
+ * The credential ledger. Derived from the career data so education and
+ * certifications have exactly one definition on the site.
+ */
+export const education = edu;
+export const certifications = certs;
 export const languages = [{ name: 'English', level: 'Professional working proficiency' }];

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" fill="#06070A"/>
-  <rect x="0.5" y="0.5" width="63" height="63" fill="none" stroke="#E8B04B" stroke-opacity="0.35"/>
-  <text x="32" y="33" text-anchor="middle" dominant-baseline="central"
-        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
-        font-size="34" font-weight="600" fill="#E8B04B">R</text>
+  <rect width="64" height="64" fill="#05070A"/>
+  <rect x="10" y="14" width="6" height="36" fill="#4E6E85"/>
+  <rect x="22" y="14" width="6" height="36" fill="#6E9BB8"/>
+  <rect x="34" y="14" width="6" height="36" fill="#A9D3E8"/>
+  <rect x="46" y="14" width="6" height="36" fill="#E09B42"/>
 </svg>

@@ -23,5 +23,17 @@ dist-ssr
 *.sln
 *.sw?
 
-# Local headless smoke harness (scratch — safe to delete)
+# Local headless verification harness (scratch — safe to delete)
 .smoke
+
+# Résumé sources and working notes — kept locally, never in the repo.
+# The shipped PDF lives in public/ and is the only copy the site needs.
+# `docs/*` rather than `docs/` so the exception below can apply: git will not
+# descend into a wholesale-excluded directory.
+docs/*
+# The redaction spec must be in the repo — it is the handoff for sanitising the
+# published screenshots before deployment.
+!docs/REDACTION.md
+
+# Windows alternate-stream junk that arrives with uploaded files
+*:Zone.Identifier

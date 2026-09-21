@@ -1,68 +1,38 @@
-// Four posts, oldest first. Content is resume-derived only.
-export const timeline = [
-  {
-    id: 'innovatechs',
-    index: '2020',
-    org: 'Innovatechs Technology Solutions',
-    role: 'Software Engineer (Java)',
-    place: 'Hyderabad, India',
-    period: 'Jan 2020 — Jan 2023',
-    system: 'Department of Energy, Abu Dhabi — government licensing platform',
-    stack: ['Java', 'J2EE', 'Spring Boot', 'Spring Security', 'Hibernate', 'webMethods', 'AWS S3', 'EDI'],
-    contributions: [
-      'Engineered webMethods integrations in Java and J2EE to establish a B2B network for energy-plant licensing, focused on system performance.',
-      'Built RESTful APIs with Java, Hibernate and Spring Boot, secured with Spring Security and integrated with the Amazon S3 client.',
-      'Developed XML-to-EDI document transformation for partner exchange over FTP and reverse-invoke servers, and configured JDBC adapters plus pub–sub patch migration between environments.',
-    ],
-  },
-  {
-    id: 'covalience',
-    index: '2023',
-    org: 'Covalience',
-    role: 'Sr. Application Engineer II (Full-Stack)',
-    place: 'Chandigarh, India',
-    period: 'Jan 2023 — Aug 2024',
-    system: 'Plan4HealthCare — government healthcare budgeting platform',
-    stack: ['Java', 'J2EE', 'Spring Boot', 'Spring MVC', 'Angular', 'SQL', 'Docker', 'CI/CD'],
-    contributions: [
-      'Delivered server-side Java and J2EE features behind Spring REST APIs for a platform letting government medical hospitals estimate and track budgets in real time.',
-      'Optimised SQL queries, stored procedures and triggers behind the platform’s highest-traffic screens.',
-      'Built CI/CD pipelines and Docker containers to standardise environment delivery, and worked across the stack rather than handing off at the API boundary.',
-    ],
-  },
-  {
-    id: 'foreseer',
-    index: '2024',
-    org: 'S&P Global — Market Intelligence',
-    role: 'Senior Software Engineer III (Full-Stack)',
-    place: 'India',
-    period: 'Sept 2024 — Jun 2026',
-    system: 'Foreseer-AI — AI/NLP extraction from unstructured financial documents',
-    stack: ['Java', 'Spring Boot', 'Microservices', 'ActiveMQ', 'AWS', 'Azure DevOps', 'Docker', 'Kubernetes'],
-    contributions: [
-      'Enhanced the NLP extraction model behind a platform that turns unstructured financial documents into structured, queryable data.',
-      'Owned the ETL pre-processing stage normalising heterogeneous source documents into a single XML representation for real-time downstream consumption.',
-      'Integrated ActiveMQ brokering to decouple document-processing microservices, converting synchronous hand-offs into asynchronous delivery.',
-      'Instrumented the services with DataDog and Grafana, then used those traces to target SQL indexing at the queries that were actually slow, rather than tuning blind.',
-      'Moved credential handling to AWS Secrets Manager and built the Azure DevOps delivery pipelines for the microservice estate.',
-    ],
-  },
-  {
-    id: 'phoenix',
-    index: '2026',
-    org: 'S&P Global — Market Intelligence',
-    role: 'Senior Software Engineer III (Full-Stack)',
-    place: 'India',
-    period: 'Jun 2026 — Present',
-    current: true,
-    system: 'ClariFI Phoenix — distributed financial data & analytics platform',
-    stack: ['Java 21', 'In-memory data grid', 'Undertow', 'OpenAPI', 'Protobuf', 'SQL Server', 'Gradle'],
-    contributions: [
-      'Re-architected OpenAPI delivery from per-request assembly to a boot-time pipeline with recursive $ref resolution, cycle detection and fail-fast fragment validation.',
-      'Designed and shipped the user-facing Data Catalog read API, separating user-scoped access from the pre-existing admin CRUD surface.',
-      'Authored two financial return functions for the transform engine — a rolling geometric compounded return and a cumulative return over rolling and expanding windows.',
-      'Implemented multi-window expansion so a single formula fans out into one series per requested window.',
-      'Backed every change with JUnit coverage and 18 Bruno API regression collections.',
-    ],
-  },
-];
+import { experience } from './experience';
+
+/**
+ * The trajectory track, derived from the career rather than duplicated.
+ *
+ * `experience.js` is the single source of truth and is ordered newest-first, so
+ * the track reads NOW → 2020. This module only reshapes it into what the
+ * Trajectory section wants, and carries the richer prose through as `detail`
+ * for the card's disclosure — visible on request, not dumped into the card.
+ */
+export const timeline = experience.map((role) => ({
+  id: role.id,
+  index: role.year,
+  current: Boolean(role.current),
+  org: role.org,
+  role: role.role,
+  place: role.place,
+  period: role.period,
+  system: role.system,
+  kind: role.kind,
+  summary: role.summary,
+  stack: role.technology,
+
+  // Behind the disclosure. Four questions, asked identically of every post so
+  // they can be compared rather than merely read.
+  detail: [
+    { label: 'Problem', body: role.problem },
+    { label: 'What I built', body: role.built },
+    { label: 'What made it hard', body: role.complexity },
+  ],
+  impact: role.impact ?? [],
+}));
+
+/** The track runs present → past; the labels say so rather than implying it. */
+export const trackEnds = {
+  from: 'Now',
+  to: experience[experience.length - 1]?.year ?? '',
+};

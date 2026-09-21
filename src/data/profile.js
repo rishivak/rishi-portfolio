@@ -1,19 +1,41 @@
 export const profile = {
+  name: 'Rishi Sharma',
   first: 'RISHI',
   last: 'SHARMA',
-  role: 'Senior Backend & Full-Stack Engineer',
-  discipline: 'Distributed Systems · APIs · Financial Data Platforms',
 
-  // The hero cycles these. Each one has to stand alone as a claim.
+  // Résumé-accurate. Changing the band number is this one line.
+  title: 'Senior Software Engineer III',
+  role: 'Senior Backend & Full-Stack Engineer',
+  discipline: 'Distributed Systems · Financial Data · APIs · AI Extraction',
+  employer: 'S&P Global Market Intelligence',
+
+  /**
+   * Tenure wording appears in the hero, the experience section and the page
+   * metadata. It lives here once so the three cannot disagree — "6+ years"
+   * appears nowhere on the site, and the harness asserts that.
+   */
+  tenure: 'Nearly seven years',
+  since: 2020,
+
+  headline: 'I build the systems between data and decisions.',
+
+  /** What the designation actually means, shown beneath the name. */
+  expertise: ['Java', 'Distributed systems', 'Financial data', 'AI extraction'],
+
+  // The hero cycles these. Each has to stand alone as a claim.
   statements: [
-    'THE LAYER BETWEEN DATA AND DECISION',
+    'SYSTEMS THAT TURN DATA INTO DECISIONS',
     'DISTRIBUTED SYSTEMS FOR FINANCIAL DATA',
     'SYSTEMS THAT ANSWER, NOT JUST STORE',
   ],
 
-  tenure: 'Nearly seven years',
-  since: 2020,
-  employer: 'S&P Global — Market Intelligence',
+  /** Positioning — the hero's three paragraphs. */
+  positioning: [
+    'I build backend systems that take complex data, process it reliably, and expose it through APIs, computations, and workflows that people can actually use.',
+    'Nearly seven years of experience building Java systems across financial data, AI extraction, integrations, and full-stack platforms. I currently work at S&P Global Market Intelligence, where I build distributed systems for financial data and analytics.',
+    'My strongest work sits at the boundary between data and software: API design, distributed computation, data transformations, asynchronous processing, and the correctness of the numbers moving through the system.',
+  ],
+
   location: 'Jaipur, Rajasthan, India',
   timezone: 'IST · UTC+5:30',
   availability: 'Open to remote engagements',
@@ -26,10 +48,28 @@ export const profile = {
   },
   resume: 'Rishi_Sharma_Resume.pdf',
 
-  // THESIS — three movements, drawn from the resume summary.
-  thesis: [
-    'I build the server-side machinery that sits between raw financial data and the people who have to make a decision with it. Nearly seven years of Java, currently across two flagship products at S&P Global Market Intelligence.',
-    'Present work is distributed-systems engineering on an in-memory data grid serving financial time-series and point-in-time data — owning features end to end, from the HTTP API contract through distributed compute to regression coverage.',
-    'I am strongest in the parts that are unglamorous and unforgiving: API platform performance, type-safe domain modelling, and the numerical correctness of financial calculations. An MBA in Finance makes the domain readable rather than something to be translated.',
+  /** The hero's primary links, in the order they should be offered. */
+  primaryLinks: [
+    { id: 'trajectory', label: 'Experience', to: 'trajectory' },
+    { id: 'systems', label: 'Systems', to: 'systems' },
+    { id: 'github', label: 'GitHub', external: 'https://github.com/rishivak' },
+    { id: 'resume', label: 'Résumé', asset: 'Rishi_Sharma_Resume.pdf' },
+    { id: 'channel', label: 'Contact', to: 'channel' },
   ],
+
+  closing: 'Build something useful.',
+  closingBody:
+    'I am interested in engineering work involving backend systems, financial data, distributed processing, APIs, and AI-enabled data workflows.',
+
+  // THESIS — the boundaries.
+  thesis: [
+    'The work is usually not where the framework is. It is in the boundaries.',
+  ],
+  boundaries: [
+    'The boundary between an API contract and its implementation.',
+    'The boundary between raw data and a trustworthy number.',
+    'The boundary between one service and another.',
+    'The boundary between a language model’s output and something a production system can safely accept.',
+  ],
+  boundaryClose: 'That is where I like to work.',
 };

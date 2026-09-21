@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { layers, technologies } from '../../data/stack';
 import { systems } from '../../data/systems';
 import { Section } from '../primitives/Section';
+import { stageFor, sectionById } from '../../data/nav';
 import { Kicker } from '../primitives/Kicker';
 import { StackGraph } from '../visuals/StackGraph';
 import { ONCE, rise } from '../../lib/motion';
@@ -65,9 +66,9 @@ export function Substrate() {
   );
 
   return (
-    <Section id="substrate" label="Substrate">
+    <Section id="substrate" stage={stageFor('substrate')} label="Substrate">
       <div className="shell">
-        <Kicker index="04">Substrate</Kicker>
+        <Kicker index={sectionById['substrate'].index}>Substrate</Kicker>
         <motion.h2
           variants={rise}
           initial="hidden"

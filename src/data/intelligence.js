@@ -1,45 +1,55 @@
+/**
+ * 05 — INTELLIGENCE.
+ *
+ * This section answers **how I think about AI-enabled systems**, not what I
+ * built. The Foreseer case study in `02 Systems` covers the build — document
+ * preprocessing, XML normalisation, extraction, ActiveMQ decoupling, secrets,
+ * delivery, observability. Repeating it here would be the same story twice.
+ *
+ * So this file deliberately contains no case-study fields: no engineering
+ * surface, no stack list, no imagery. The harness asserts that boundary
+ * structurally, so a future copy edit cannot quietly collapse the two.
+ */
 export const intelligence = {
-  kicker: 'Intelligence Layer',
+  kicker: 'Intelligence',
   title: 'Documents are not data until something reads them.',
-  lede:
-    'Most of the information a financial decision rests on arrives as prose — filings, disclosures, reports. The engineering problem is not the model. It is everything around the model: getting heterogeneous sources into one shape, keeping the pipeline fed, and being able to tell whether the output is right.',
+  lede: [
+    'A large part of financial information arrives as filings, reports, disclosures, and other unstructured documents.',
+    'My experience in document intelligence has been less about treating the model as magic and more about building the system around it.',
+  ],
 
-  // Delivered — traceable to shipped work.
-  delivered: [
+  /** The pipeline as a principle, not as a project. */
+  chain: ['normalise', 'extract', 'validate', 'reject or accept', 'persist', 'observe'],
+
+  /** Patterns, phrased as engineering positions rather than deliverables. */
+  patterns: [
     {
-      id: 'extraction',
-      title: 'Document intelligence',
-      body:
-        'Enhanced the NLP extraction model behind a platform that turns unstructured financial documents into structured, queryable data.',
+      id: 'component',
+      title: 'The model is one component',
+      body: 'An LLM is a dependency with a failure mode, not an authority. It belongs inside a system designed to tolerate it being wrong.',
     },
     {
-      id: 'etl',
-      title: 'Normalisation as the real problem',
-      body:
-        'Owned the ETL pre-processing stage that reduces heterogeneous source documents to a single XML representation — the step that makes everything downstream possible.',
+      id: 'validation',
+      title: 'Validation is the product',
+      body: 'Getting a model to produce an answer is the easy half. Knowing whether the answer should be trusted is the part that decides whether anything downstream is safe.',
     },
     {
-      id: 'pipeline',
-      title: 'Keeping the model fed',
-      body:
-        'Decoupled the processing services with message brokering so extraction throughput is set by capacity rather than by the slowest synchronous hand-off.',
+      id: 'detectable',
+      title: 'Wrong output must be detectable',
+      body: 'A confidently wrong figure is worse than a rejection. Type checks, range checks and internal consistency give the system grounds to refuse.',
     },
     {
-      id: 'transform',
-      title: 'Intelligent data transformation',
-      body:
-        'On the current platform, a transform engine where a single declared formula fans out across requested windows — computation expressed as intent, resolved by the system.',
+      id: 'quality',
+      title: 'Data quality precedes intelligence',
+      body: 'Heterogeneous inputs have to reach one shape before anything can read them reliably. Most of the leverage is upstream of the model.',
+    },
+    {
+      id: 'observe',
+      title: 'Observe it in production',
+      body: 'Extraction quality drifts as sources change. Without instrumentation you learn about it from a user rather than from a dashboard.',
     },
   ],
 
-  // Forward-looking. Explicitly marked as direction, not delivery.
-  focus: {
-    label: 'Current focus — direction, not delivered work',
-    items: [
-      'LLM-assisted extraction where the schema is discovered from the document rather than declared in advance.',
-      'Correctness tooling for AI output in financial contexts: making a wrong number detectable before it reaches a decision.',
-      'Automated workflows that treat a language model as one unreliable component inside a system engineered to tolerate it.',
-      'Writing up the boot-time specification assembly pattern as a public technical article.',
-    ],
-  },
+  close:
+    'The interesting engineering problem is not simply getting a model to produce an answer. It is knowing whether the answer should be trusted.',
 };
