@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { sections } from '../../data/nav';
+import { useMotionValueEvent } from 'framer-motion';
+import { sectionById } from '../../data/nav';
 
 const IST = 'Asia/Kolkata';
 
@@ -17,9 +18,17 @@ const clock = () =>
  * actual local time, the actual viewport, the actual scroll position. Nothing
  * on this panel is decorative fake telemetry.
  */
-export function Telemetry({ active, progress, inverted }) {
+export function Telemetry({ position, inverted }) {
   const [time, setTime] = useState(clock);
   const [viewport, setViewport] = useState({ w: 0, h: 0 });
+  // Whole percent only: the readout cannot show more, so it should not render
+  // more often than it changes.
+  const [pos, setPos] = useState(0);
+
+  useMotionValueEvent(position.global, 'change', (g) => {
+    const next = Math.round(g * 100);
+    setPos((cur) => (cur === next ? cur : next));
+  });
 
   useEffect(() => {
     const id = setInterval(() => setTime(clock()), 1000);
@@ -33,13 +42,13 @@ export function Telemetry({ active, progress, inverted }) {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const section = sections.find((s) => s.id === active);
+  const section = sectionById[position.id];
   const dim = inverted ? 'var(--paper-ink-3)' : 'var(--bone-3)';
 
   const rows = [
     ['IST', time],
     ['VIEW', `${viewport.w}×${viewport.h}`],
-    ['POS', `${String(Math.round(progress * 100)).padStart(3, '0')}%`],
+    ['POS', `${String(pos).padStart(3, '0')}%`],
     ['SEC', section ? `${section.index} ${section.label.toUpperCase()}` : '—'],
   ];
 

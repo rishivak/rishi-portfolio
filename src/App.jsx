@@ -1,7 +1,7 @@
 import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react';
-import { MotionConfig, useScroll } from 'framer-motion';
+import { MotionConfig } from 'framer-motion';
 import { invertedSections, sections } from './data/nav';
-import { useSectionObserver } from './lib/useSectionObserver';
+import { useScrollPosition } from './lib/useScrollPosition';
 import { SkipLink } from './components/chrome/SkipLink';
 import { GridOverlay } from './components/chrome/GridOverlay';
 import { Masthead } from './components/chrome/Masthead';
@@ -31,8 +31,6 @@ const ArchitectureMode = lazy(() =>
   import('./components/chrome/ArchitectureMode').then((m) => ({ default: m.ArchitectureMode })),
 );
 
-const sectionIds = sections.map((s) => s.id);
-
 const isTyping = (target) =>
   target instanceof HTMLElement &&
   (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
@@ -41,16 +39,15 @@ export default function App() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [keymap, setKeymap] = useState(false);
   const [architecture, setArchitecture] = useState(false);
-  const [progress, setProgress] = useState(0);
 
-  const active = useSectionObserver(sectionIds);
-  const { scrollYProgress } = useScroll();
-
-  useEffect(() => scrollYProgress.on('change', setProgress), [scrollYProgress]);
+  // One read of the scroll position resolves the whole chrome, the same way one
+  // `t` resolves the whole 3D world. The discrete part is state; the continuous
+  // parts are motion values, so scrolling does not re-render the page.
+  const position = useScrollPosition(sections);
 
   // One boolean the whole chrome reads, so nothing disappears into the paper
   // section — and the world's scrim knows to cover itself there.
-  const inverted = invertedSections.includes(active);
+  const inverted = invertedSections.includes(position.id);
 
   const toggleArchitecture = useCallback(() => setArchitecture((v) => !v), []);
   const closePalette = useCallback(() => setPaletteOpen(false), []);
@@ -90,12 +87,17 @@ export default function App() {
 
       {/* The world sits at z-0, beneath everything, composed to the right of
           the content column. */}
-      <Stage activeSection={active} inverted={inverted} />
+      <Stage activeSection={position.id} inverted={inverted} />
 
       <GridOverlay inverted={inverted} />
-      <Masthead onOpenPalette={() => setPaletteOpen(true)} inverted={inverted} hint={hint} />
-      <Spine active={active} progress={progress} inverted={inverted} />
-      <Telemetry active={active} progress={progress} inverted={inverted} />
+      <Masthead
+        onOpenPalette={() => setPaletteOpen(true)}
+        inverted={inverted}
+        hint={hint}
+        position={position}
+      />
+      <Spine position={position} inverted={inverted} />
+      <Telemetry position={position} inverted={inverted} />
       <Cursor />
 
       <main id="main" className="relative z-10 lg:pl-rail">

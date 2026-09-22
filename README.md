@@ -52,6 +52,25 @@ functions of `t`. Nothing has its own timer, observer or trigger — which is wh
 scrollbar backwards looks identical to scrolling forwards, and why the reduced-motion path can just
 ask for the state at a fixed `t` and stop.
 
+**Where the reader is, is geometry — not intersection.** One hook,
+`src/lib/useScrollPosition.js`, measures every section's band and resolves a read head 40% down the
+viewport against them. It returns the active section plus `within` (progress through that section)
+and `global` (progress through the page), and everything else in the chrome is derived from it: the
+rail, the telemetry readout, the paper-section inversion, and the world's intensity budget.
+
+This deliberately does *not* use an `IntersectionObserver`, because intersection answers "is this
+visible" and this is a "where am I" question. The two diverge badly here: `intersectionRatio` is a
+fraction of the **target**, so `02 Systems` at over 1000vh can never exceed ≈ 0.09 while an 80vh
+section reaches 1.0 — a ratio comparison hands the page to whichever short section happens to be in
+view. Discrete thresholds make it worse, firing only on crossings, so inside a tall section the
+callback effectively stops running. The resolver is pure, which is why `.smoke/position.mjs` can
+check it against hand-computed layouts; the observer it replaced could not be tested headlessly at
+all, and a bug that froze the rail and pinned the world at hero intensity across the whole page
+survived unnoticed because of it.
+
+The discrete part is React state and changes about eight times in a full read. `within` and `global`
+are motion values, so the rail animates every frame without re-rendering the page behind it.
+
 That invariant is protected, not merely intended. Waypoint clicks, keyboard navigation and `⌘K` all
 do one thing: set scroll position. There is no second camera state anywhere. Even *focus mode* —
 which moves the camera into a system for a closer look — is a pure transform composed on top:
@@ -208,8 +227,26 @@ every employer, period, role title, project name, declared technology and engine
 actually reaches the page; experience is ordered newest-first everywhere; the camera is
 deterministic in `t`; no camera jump at any behaviour boundary; a structural fingerprint per
 environment, so four eras cannot become four identical graphs; the intensity budget stays ≤ 0.45
-after the hero; fewer than 12% of projected nodes fall inside the content column; and the world's
-palette resolves to greys with amber as the only chromatic accent.
+after the hero **and is actually reachable by the tracker**; the scroll resolver returns the right
+section at 20-odd positions in a deliberately lopsided layout, including 600vh deep inside a 1100vh
+section; a boundary crossed slowly flips once rather than oscillating; every section in the registry
+is reachable by scrolling; the rail marks exactly one rung and every rung carries its registry stage;
+fewer than 12% of projected nodes fall inside the content column; and the world's palette resolves to
+greys with amber as the only chromatic accent.
+
+## The rail
+
+`00 … 07` sit on a virtual drum sharing the canvas world's perspective: the section you are reading
+faces you, its neighbours rotate away on the X axis and recede. It is driven by a continuous
+`sectionIndex + within`, so the drum turns *through* a boundary like an odometer rather than snapping
+at it, and each rung carries its own stage hue — so a full read walks the rail
+`DATA → ENGINEERING → INTELLIGENCE → DECISION` using the four hues already in the spectrum. A
+read-head travels a hairline for position in the document, and a short fill under the active number
+shows how much of the current section is left, which matters now that one section runs past 1000vh.
+
+Under reduced motion the drum flattens to no transform while the read-head and the fill keep working:
+position is never carried by the 3D effect alone. Below `lg` the rail is hidden, so the masthead
+carries a progress hairline and the section index and label instead.
 
 ## Accessibility
 
