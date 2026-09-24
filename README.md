@@ -244,6 +244,16 @@ at it, and each rung carries its own stage hue — so a full read walks the rail
 read-head travels a hairline for position in the document, and a short fill under the active number
 shows how much of the current section is left, which matters now that one section runs past 1000vh.
 
+The drum maths lives in `src/lib/drum.js`, and its `REACH` cap is load-bearing rather than cosmetic.
+The rail spans eight sections, so an uncapped distance reaches ±7 — which tilts the far rungs past
+90°, flipping them backface-to-camera and pushing them 240px+ into a 620px perspective. A rung
+rotated past the viewing plane is hit-tested somewhere other than where it is drawn, which is how the
+rail stopped taking clicks. Capped at 2.5 the drum never exceeds 40° or −85px. For the same reason
+the rungs share no `preserve-3d` space and carry no `filter`: each takes its own perspective
+projection, and `filter` is a grouping property whose flattening inside a perspective context
+misplaces the click region. Opacity alone carries the aerial perspective. All four bounds are
+asserted in `.smoke/position.mjs` rather than trusted.
+
 Under reduced motion the drum flattens to no transform while the read-head and the fill keep working:
 position is never carried by the 3D effect alone. Below `lg` the rail is hidden, so the masthead
 carries a progress hairline and the section index and label instead.

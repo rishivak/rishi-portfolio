@@ -2,6 +2,7 @@ import { motion, useTransform } from 'framer-motion';
 import { sections } from '../../data/nav';
 import { scrollToSection } from '../../lib/scrollTo';
 import { useReducedMotion } from '../../lib/useReducedMotion';
+import { PERSPECTIVE, drumAt } from '../../lib/drum';
 
 /**
  * Left rail: the section index, always visible, always telling you where you
@@ -20,36 +21,30 @@ import { useReducedMotion } from '../../lib/useReducedMotion';
  * effect alone.
  */
 
-const TILT = 16; // degrees of rotation per section of distance
-const DEPTH = 34; // pixels of recession per section of distance
-
 function Rung({ section, i, head, within, on, dim, strong, flat }) {
-  const distance = (h) => h - i;
-
   const transform = useTransform(head, (h) => {
     if (flat) return 'none';
-    const d = distance(h);
-    return `rotateX(${(-d * TILT).toFixed(2)}deg) translateZ(${(-Math.abs(d) * DEPTH).toFixed(1)}px)`;
+    const { rotate, depth } = drumAt(h, i);
+    return `rotateX(${rotate.toFixed(2)}deg) translateZ(${depth.toFixed(1)}px)`;
   });
 
-  // Aerial perspective: distance costs presence, but the active rung is always
-  // at full strength.
-  const opacity = useTransform(head, (h) => Math.max(0.28, 1 - Math.abs(distance(h)) * 0.34));
-  const filter = useTransform(head, (h) => (Math.abs(distance(h)) > 2 ? 'blur(0.6px)' : 'none'));
-  const tick = useTransform(head, (h) => Math.max(10, 24 - Math.abs(distance(h)) * 14));
+  const opacity = useTransform(head, (h) => drumAt(h, i).opacity);
+  const tick = useTransform(head, (h) => drumAt(h, i).tick);
 
   return (
     <motion.li
       /* The item's own stage, so the hue comes from the same cascade the
          headings and the 3D world use. */
       data-stage={section.stage}
-      style={{ transform, opacity, filter, transformStyle: flat ? undefined : 'preserve-3d' }}
+      style={{ transform, opacity }}
     >
       <button
         type="button"
         onClick={() => scrollToSection(section.id)}
         aria-current={on ? 'true' : undefined}
-        className="group flex items-center gap-2.5 py-1 transition-colors duration-1 ease-out"
+        /* Stated on the button itself: the rail is inside a pointer-events-none
+           landmark, and this is the one thing in it that must stay clickable. */
+        className="group pointer-events-auto flex items-center gap-2.5 py-1 transition-colors duration-1 ease-out"
         style={{ color: on ? 'var(--stage-text)' : dim }}
       >
         <span className="meta tabular-nums" style={{ color: 'inherit' }}>
@@ -98,7 +93,7 @@ export function Spine({ position, inverted }) {
     >
       <ol
         className="pointer-events-auto flex flex-col gap-3"
-        style={reduced ? undefined : { perspective: 620, transformStyle: 'preserve-3d' }}
+        style={reduced ? undefined : { perspective: PERSPECTIVE }}
       >
         {sections.map((section, i) => (
           <Rung
